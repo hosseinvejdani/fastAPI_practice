@@ -6,9 +6,9 @@ app = FastAPI()
 
 
 
-# How to use path parameter in fastapi -------------------------------------------
-@app.get('/blog/{id}')
-def get_blog(id: int):
-    return {'message': f'blog id is {id}'}
 
+# how to use query parameter in fastapi -------------------------------------------
+@app.get('/blog')
+def get_blog(id: int):
+    return {"message": f"blog id is {id}"}
 
