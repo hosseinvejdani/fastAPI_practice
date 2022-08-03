@@ -1,8 +1,11 @@
-from fastapi import APIRouter, Query, Body
+from fastapi import APIRouter, Query, Body, Path
 from pydantic import BaseModel
-from typing import Optional
+from typing import Optional, List
 
-'''this file show you how to use Body metadata and validators'''
+'''
+this file show you how to get list on items via query params
+and also show you how to use int validators
+'''
 
 router = APIRouter(prefix='/blog', tags=['blog'])
 
@@ -19,23 +22,33 @@ def create_blog(blog: BlogModel, id: int, version: int = 1):
     return {"message": 'OK', "data": blog, "id": id, 'version': version}
 
 
-@router.post('/new/{id}/comment')
+@router.post('/new/{id}/comment/{comment_id}')
 def create_comment(id: int, blog: BlogModel,
-                   comment_id: int = Query(None,
+                   comment_title: int = Query(None,
                                            title='Title Text !',
                                            description='Description Text !',
-                                           alias='CommentID',
+                                           alias='CommentTitle',
                                            deprecated=True
                                            ),
                    content: str = Body(...,
                                        min_length=10,
                                        max_length=20,
-                                       regex='^[A-Z].*',
-                                       )
+                                       regex='^[A-Z].*'
+                                       ),
+                   v: Optional[List[str]]= Query(['1.2', '1.5']),
+                   comment_id: int = Path(None, gt=5)
                    ):
     return {
         'blog': blog,
         'id': id,
-        'comment_id': comment_id,
-        'content': content
+        'comment_title': comment_title,
+        'content': content,
+        'version': v,
+        'comment_id': comment_id
+
     }
+
+# Greate Than -- GT -- >
+# Greate Or Equal -- GE -- >=
+# Less than -- LT -- <
+# Less or Equal -- LE -- <=
