@@ -6,9 +6,6 @@ app = FastAPI()
 
 
 
-
-
-
 # how to use path parameter + status code + response in fastapi ---------------------------------------------------
 @app.get('/blog/{id}', status_code=status.HTTP_200_OK) # default status_code 
 def get_blog(id: int, response:Response): 
