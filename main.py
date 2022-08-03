@@ -8,6 +8,7 @@ app = FastAPI()
 
 # How to use path parameter in fastapi -------------------------------------------
 @app.get('/blog/{id}')
-def get_type_blog(id: int):
+def get_blog(id: int):
     return {'message': f'blog id is {id}'}
+
 
