@@ -1,9 +1,10 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Query
 from pydantic import BaseModel
 from typing import Optional
 
 '''
-this file shows you how to use post method and base model
+this file shows you how to use Query metadata,
+the question is how determinate the type of paramater, path, query, body??
 '''
 
 router = APIRouter(prefix='/blog', tags=['blog'])
@@ -16,6 +17,21 @@ class BlogModel(BaseModel):
     published: Optional[bool]
 
 
-@router.post('/new')
-def create_blog(blog: BlogModel):
-    return {"message": 'OK', "data": blog}
+@router.post('/new/{id}')
+def create_blog(blog: BlogModel, id: int, version: int = 1):
+    return {"message": 'OK', "data": blog, "id": id, 'version': version}
+
+
+@router.post('/new/{id}/comment')
+def create_comment(id: int, blog: BlogModel, comment_id: int =
+                    Query(None,
+                          title='Title Text !',
+                          description='Description Text !',
+                          alias='CommentID',
+                          deprecated=True
+                          )):
+    return {
+        'blog': blog,
+        'id': id,
+        'comment_id': comment_id
+    }
