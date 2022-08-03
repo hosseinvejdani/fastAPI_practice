@@ -7,14 +7,9 @@ app = FastAPI()
 
 
 
-# How to use enum in fastapi -------------------------------------------
-class TypeBlogs(str, Enum):
-    Type1 = 'technology'
-    Type2 = 'science'
-    Type3 = 'medical'
-
-@app.get('/blog/type/{type}')
-def get_type_blog(type: TypeBlogs):
-    return {'message': f'blog type is {type}'}
+# how to use path and query parameters at the same time in fastapi ------------------------------
+@app.get('/blog/{id}/comments/{comment_id}')
+def get_comment(id: int, comment_id: int, valid: bool = True, username: Optional[str] = None):
+    return {"message": f"blog id {id} comment id {comment_id} {valid=} {username=}"}
 
 
