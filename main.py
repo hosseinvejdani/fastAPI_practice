@@ -1,14 +1,12 @@
-from fastapi import FastAPI, status, Response
-from enum import Enum
-from typing import Optional
+from fastapi import FastAPI
+from router import blog_get
+from router import blog_post
 
 app = FastAPI()
+app.include_router(blog_get.router)
+app.include_router(blog_post.router)
 
 
-
-# How to use tags, summary and description in fastapi -------------------------------------------
-@app.get('/blog/{id}',tags=['blog'],summary='Get blog by id', description='Get blog by id')
-def get_blog(id: int):
-    return {'message': f'blog id is {id}'}
-
-
+@app.get('/')
+def hello():
+   return 'hello'
